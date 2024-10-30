@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/models/model_item.dart';
 
 class NoteItem extends StatelessWidget {
+  ItemModel model;
+  NoteItem({required this.model});
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-      color: Color(0xFFFFCC80),
+      color: model.color,
+      // color: Color(0xFFFFCC80),
       borderRadius: BorderRadius.circular(20)
       ),
       child: Padding(
-        padding:  EdgeInsets.only(left: 18,top:18,bottom:18),
+        padding:  EdgeInsets.only(left: 18,top:18,bottom: 18),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -27,15 +31,12 @@ class NoteItem extends StatelessWidget {
                       TextStyle(color: Colors.black.withOpacity(.6), fontSize: 18),
                 ),
               ),
-              trailing: Padding(
-                padding: const EdgeInsets.only(bottom:48.0),
-                child: IconButton(
-                  onPressed: (){},
-                  icon: Icon(
-                    Icons.delete,
-                    color: Colors.black,
-                    size: 30,
-                  ),
+              trailing: IconButton(
+                onPressed: (){},
+                icon: Icon(
+                  Icons.delete,
+                  color: Colors.black,
+                  size: 30,
                 ),
               ),
             ),
