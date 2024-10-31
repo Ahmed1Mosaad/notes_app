@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/constants.dart';
 
 
 class CustomTextFormField extends StatelessWidget {
   final String hintText;
-  double width;
-  double height;
+  
   CustomTextFormField({
-    required this.height,
-    required this.width,
+    
     required this.hintText,
     super.key,
   });
@@ -15,6 +14,8 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: hintText == 'Content'? 5 : 1,
+      cursorColor: const Color.fromARGB(255, 33, 243, 236),
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         enabledBorder: OutlineInputBorder(
@@ -24,15 +25,17 @@ class CustomTextFormField extends StatelessWidget {
             borderSide: BorderSide(color: Colors.white),
             borderRadius: BorderRadius.circular(10)),
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
+            borderSide: BorderSide(color:kPrimaryColor),
             borderRadius: BorderRadius.circular(10)),
         errorBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
             borderRadius: BorderRadius.circular(15)),
         hintText: hintText,
-        hintStyle: TextStyle(color: const Color.fromARGB(255, 33, 243, 236)),
+        hintStyle: TextStyle(color:kPrimaryColor),
+    
         contentPadding:
-            EdgeInsets.symmetric(vertical: height, horizontal: width),
+            EdgeInsets.symmetric(vertical: 20 , horizontal: 15),
+            
       ),
     );
   }

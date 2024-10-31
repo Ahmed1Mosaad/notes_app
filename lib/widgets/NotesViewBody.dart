@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:notes_app/models/model_item.dart';
+import 'package:notes_app/constants.dart';
+import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/widgets/note_item.dart';
 
 class NotesViewBody extends StatelessWidget {
   NotesViewBody({super.key});
   List<Widget> listItem = [
-    NoteItem(model: ItemModel(color: Colors.red)),
-    NoteItem(model: ItemModel(color: Colors.green)),
-    NoteItem(model: ItemModel(color: Colors.blue)),
-    NoteItem(model: ItemModel(color: Colors.yellow)),
-    NoteItem(model: ItemModel(color: Colors.orange)),
-    NoteItem(model: ItemModel(color: Colors.pink)),
-    NoteItem(model: ItemModel(color: Colors.brown)),
-    NoteItem(model: ItemModel(color: Colors.purple)),
-    NoteItem(model: ItemModel(color: Colors.deepOrangeAccent)),
-    NoteItem(model: ItemModel(color: Colors.yellowAccent)),
-    NoteItem(model: ItemModel(color: Colors.lightGreen)),
-    NoteItem(model: ItemModel(color: Colors.redAccent)),
+    NoteItem(model: NoteModel(color: Colors.red,)),
+    NoteItem(model: NoteModel(color: Colors.green)),
+    NoteItem(model: NoteModel(color: Colors.blue)),
+    NoteItem(model: NoteModel(color: Colors.yellow)),
+    NoteItem(model: NoteModel(color: Colors.orange)),
+    NoteItem(model: NoteModel(color: Colors.pink)),
+    NoteItem(model: NoteModel(color: Colors.brown)),
+    NoteItem(model: NoteModel(color: Colors.purple)),
+    NoteItem(model: NoteModel(color: Colors.deepOrangeAccent)),
+    NoteItem(model: NoteModel(color: Colors.yellowAccent)),
+    NoteItem(model: NoteModel(color: Colors.lightGreen)),
+    NoteItem(model: NoteModel(color: Colors.redAccent)),
+    NoteItem(model: NoteModel(color: kPrimaryColor)),
   ];
 
   @override

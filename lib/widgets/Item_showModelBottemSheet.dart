@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/constants.dart';
 import 'package:notes_app/widgets/custom_text_form_field.dart';
-
 
 class ShowModalBottomSheetItem extends StatelessWidget {
   const ShowModalBottomSheetItem({
@@ -11,33 +11,40 @@ class ShowModalBottomSheetItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(24),
-      child: Column(
-        children: [
-          CustomTextFormField(
-              height: 25, width: 10, hintText: 'Title'),
-          SizedBox(
-            height: 20,
-          ),
-          CustomTextFormField(height: 80,width: 10,hintText: 'Content',),
-          Expanded(child: SizedBox()),
-          Container(
-            width: double.infinity,
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        const Color.fromARGB(255, 33, 243, 236),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            CustomTextFormField( hintText: 'Title'),
+            SizedBox(
+              height: 20,
+            ),
+            CustomTextFormField(
+              
+              hintText: 'Content',
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            Container(
+              width: double.infinity,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: kPrimaryColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),
-                onPressed: () {},
-                child: Text(
-                  'Add',
-                  style: TextStyle(
+                  onPressed: () {},
+                  child: Text(
+                    'Add',
+                    style: TextStyle(
                       color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                )),
-          )
-        ],
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  )),
+            )
+          ],
+        ),
       ),
     );
   }
