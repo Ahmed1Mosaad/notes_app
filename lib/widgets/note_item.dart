@@ -4,8 +4,7 @@ import 'package:notes_app/views/EditNoteView.dart';
 import 'package:notes_app/widgets/edit_note_view_body.dart';
 
 class NoteItem extends StatelessWidget {
-  NoteModel model;
-  NoteItem({required this.model});
+  
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -16,7 +15,7 @@ class NoteItem extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-        color: model.color,
+        color: Colors.red,
         borderRadius: BorderRadius.circular(20)
         ),
         child: Padding(
