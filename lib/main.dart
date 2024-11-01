@@ -14,6 +14,7 @@ void main() async {
   Hive.registerAdapter(NoteModelAdapter());
   Bloc.observer = SimpleBlocObserver();
   runApp(NotesApp());
+  //
 }
 
 class NotesApp extends StatelessWidget {
