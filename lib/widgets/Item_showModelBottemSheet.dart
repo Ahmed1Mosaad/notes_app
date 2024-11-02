@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:notes_app/constants.dart';
 import 'package:notes_app/cubits/add_note-cubit.dart/add_note_cubit.dart';
@@ -27,27 +28,34 @@ class _ShowModalBottomSheetItemState extends State<ShowModalBottomSheetItem> {
 
   bool isLoading = false;
 
+
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AddNoteCubit, AddNoteState>(
-      listener: (context, state) {
-        if (state is AddNoteLoading) {
-          isLoading = true;
-        }
-        if (state is AddNoteSuccess) {
-          Navigator.of(context).pop();
-        }
+    return BlocProvider(
+      create: (context) => AddNoteCubit(),
+      child: BlocConsumer<AddNoteCubit, AddNoteState>(
+        listener: (context, state) {
+          if (state is AddNoteLoading) {
+            isLoading = true;
+          }
+          if (state is AddNoteSuccess) {
+            Navigator.of(context).pop();
+          }
 
-        if (state is AddNoteFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('Failure with ${state.errMessage.toString()}')));
-        }
-      },
-      builder: (context, state) {
-        return ModalProgressHUD(
-          inAsyncCall: isLoading,
-          child: Padding(
-            padding: const EdgeInsets.all(24),
+          if (state is AddNoteFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('Failure with ${state.errMessage.toString()}')));
+          }
+        },
+        builder: (context, state) {
+          return Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+                left: 24,
+                right: 24,
+                top: 24,
+                ),
+
             child: SingleChildScrollView(
               child: Form(
                 autovalidateMode: mode,
@@ -76,33 +84,51 @@ class _ShowModalBottomSheetItemState extends State<ShowModalBottomSheetItem> {
                       width: double.infinity,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
+                            fixedSize: Size(double.infinity, 50),
                             backgroundColor: kPrimaryColor,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
                             if (formKey.currentState!.validate()) {
                               formKey.currentState!.save();
+
+                              final String formatCurrentDate = DateFormat('dd/mm/yyyy').format(DateTime.now());
+                              
+                              // * sixth Stage trigger cubit (logic)
+                              await BlocProvider.of<AddNoteCubit>(context)
+                                  .addNote(NoteModel(
+                                      title: title!,
+                                      subTitle: subTitle!,
+                                      date:formatCurrentDate,
+                                      color: Colors.blue.value));
                             } else {
                               mode = AutovalidateMode.always;
                             }
                           },
-                          child: Text(
-                            'Add',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          )),
+                          child: isLoading
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 3,
+                                    color: Colors.deepPurple,
+                                  ),
+                                )
+                              : Text(
+                                  'Add',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                )),
                     )
                   ],
                 ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
