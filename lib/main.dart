@@ -16,23 +16,25 @@ void main() async {
 getApplicationDocumentsDirectory():
 هذه الدالة تعيد مسار مجلد خاص بالتطبيق على الجهاز، حيث يمكن للتطبيق تخزين الملفات (مثل قاعدة البيانات، أو الملفات النصية) والتي لا يتم حذفها إلا عند حذف التطبيق نفسه.
   */
-  
+
   await Hive.initFlutter();
   Hive.registerAdapter(NoteModelAdapter());
 
-   await Hive.openBox<NoteModel>(kNotesBox);
+  await Hive.openBox<NoteModel>(kNotesBox);
   Bloc.observer = SimpleBlocObserver();
   runApp(NotesApp());
-
 }
 
 class NotesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'Poppins', brightness: Brightness.dark),
-      home: NotesView(),
+    return BlocProvider(
+      create: (context) => NotesCubit(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(fontFamily: 'Poppins', brightness: Brightness.dark),
+        home: NotesView(),
+      ),
     );
   }
 }

@@ -6,4 +6,9 @@ abstract class NotesStates {}
 
 class InitialNoteState extends NotesStates {}
 
-class SuccessNoteState extends NotesStates {}
+
+class SuccessNoteState extends NotesStates {
+  final List<NoteModel> notesList;
+
+  SuccessNoteState({required this.notesList});
+}

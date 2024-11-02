@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/cubits/notes%20cubit/notes_cubit.dart';
 import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/EditNoteView.dart';
 import 'package:notes_app/widgets/edit_note_view_body.dart';
@@ -41,10 +43,14 @@ class NoteItem extends StatelessWidget {
                 ),
                 trailing: IconButton(
                   onPressed: (){
+                    // مسح ال داتا
                     model.delete();
+                    //screen فى حالة كنت عاوز انه بعد ما يسمح الدتا يعرض الداتا المتبقيه على ال  
+                    BlocProvider.of<NotesCubit>(context).fetchAllNotes();
                   },
                   icon: Icon(
                     Icons.delete,
+
                     color: Colors.black,
                     size: 30,
                   ),

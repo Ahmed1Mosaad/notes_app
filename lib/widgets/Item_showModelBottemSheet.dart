@@ -5,6 +5,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:notes_app/constants.dart';
 import 'package:notes_app/cubits/add_note-cubit.dart/add_note_cubit.dart';
 import 'package:notes_app/cubits/add_note-cubit.dart/add_note_state.dart';
+import 'package:notes_app/cubits/notes%20cubit/notes_cubit.dart';
 import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/widgets/custom_text_form_field.dart';
 
@@ -39,7 +40,10 @@ class _ShowModalBottomSheetItemState extends State<ShowModalBottomSheetItem> {
             isLoading = true;
           }
           if (state is AddNoteSuccess) {
+            // *وتعرض الداتا الجديده refresh نستخدمها عشان تعمل 
+            BlocProvider.of<NotesCubit>(context).fetchAllNotes();
             Navigator.of(context).pop();
+
           }
 
           if (state is AddNoteFailure) {
@@ -96,12 +100,14 @@ class _ShowModalBottomSheetItemState extends State<ShowModalBottomSheetItem> {
                               final String formatCurrentDate = DateFormat('dd/mm/yyyy').format(DateTime.now());
                               
                               // * sixth Stage trigger cubit (logic)
+                              //data بنضيف 
                               await BlocProvider.of<AddNoteCubit>(context)
                                   .addNote(NoteModel(
                                       title: title!,
                                       subTitle: subTitle!,
                                       date:formatCurrentDate,
                                       color: Colors.blue.value));
+                              
                             } else {
                               mode = AutovalidateMode.always;
                             }

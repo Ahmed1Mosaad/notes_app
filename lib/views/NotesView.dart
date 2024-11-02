@@ -9,28 +9,25 @@ import 'package:notes_app/widgets/custom_text_form_field.dart';
 class NotesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NotesCubit(),
-      child: Scaffold(
-        body: NotesViewBody(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            showModalBottomSheet(
-                isScrollControlled: true,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16)),
-                context: context,
-                builder: (context) {
-                  return ShowModalBottomSheetItem();
-                });
-          },
-          shape: CircleBorder(),
-          backgroundColor: Color.fromARGB(255, 32, 232, 229),
-          child: Center(
-            child: Icon(
-              Icons.add,
-              color: Colors.black,
-            ),
+    return Scaffold(
+      body: NotesViewBody(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+              isScrollControlled: true,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)),
+              context: context,
+              builder: (context) {
+                return ShowModalBottomSheetItem();
+              });
+        },
+        shape: CircleBorder(),
+        backgroundColor: Color.fromARGB(255, 32, 232, 229),
+        child: Center(
+          child: Icon(
+            Icons.add,
+            color: Colors.black,
           ),
         ),
       ),

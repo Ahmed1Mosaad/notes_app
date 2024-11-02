@@ -15,19 +15,22 @@ class NotesViewBody extends StatefulWidget {
 }
 
 class _NotesViewBodyState extends State<NotesViewBody> {
-// trigger cubit the Logic
-  List<NoteModel>? notesList ;
+// trigger cubit (Logic)
+
+  List<NoteModel>? notesList;
   @override
   void initState() {
     super.initState();
-     BlocProvider.of<NotesCubit>(context).fetchAllNotes();
-    notesList = BlocProvider.of<NotesCubit>(context).notesList;
+    BlocProvider.of<NotesCubit>(context).fetchAllNotes();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NotesCubit, NotesStates>(
       builder: (context, state) {
+        if (state is SuccessNoteState) {
+           notesList = state.notesList;
+        }
         return Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, top: 24),
             child: Column(
@@ -69,7 +72,7 @@ class _NotesViewBodyState extends State<NotesViewBody> {
                             height: 20,
                           );
                         },
-                        itemCount:notesList!.length,
+                        itemCount: notesList!.length,
                         itemBuilder: (context, index) {
                           return NoteItem(model: notesList![index]);
                         }),
