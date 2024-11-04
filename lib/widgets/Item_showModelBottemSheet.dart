@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:notes_app/constants.dart';
 import 'package:notes_app/cubits/add_note-cubit.dart/add_note_cubit.dart';
 import 'package:notes_app/cubits/add_note-cubit.dart/add_note_state.dart';
 import 'package:notes_app/cubits/notes%20cubit/notes_cubit.dart';
 import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/widgets/custom_text_form_field.dart';
+import 'package:notes_app/widgets/item_color.dart';
+import 'package:notes_app/widgets/list_view_colors.dart';
 
 class ShowModalBottomSheetItem extends StatefulWidget {
   const ShowModalBottomSheetItem({
@@ -23,12 +24,23 @@ class _ShowModalBottomSheetItemState extends State<ShowModalBottomSheetItem> {
   String? title;
   String? subTitle;
 
+  static List<Color> colors = [
+    Colors.red,
+    Colors.green,
+    Colors.blue,
+    Colors.brown,
+    Colors.teal,
+    Colors.tealAccent,
+    Colors.deepOrange,
+    Colors.deepPurple,
+  ];
+
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  static num currentIndex = 100;
 
   AutovalidateMode mode = AutovalidateMode.disabled;
 
   bool isLoading = false;
-
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +52,9 @@ class _ShowModalBottomSheetItemState extends State<ShowModalBottomSheetItem> {
             isLoading = true;
           }
           if (state is AddNoteSuccess) {
-            // *وتعرض الداتا الجديده refresh نستخدمها عشان تعمل 
+            // *وتعرض الداتا الجديده refresh نستخدمها عشان تعمل
             BlocProvider.of<NotesCubit>(context).fetchAllNotes();
             Navigator.of(context).pop();
-
           }
 
           if (state is AddNoteFailure) {
@@ -54,12 +65,11 @@ class _ShowModalBottomSheetItemState extends State<ShowModalBottomSheetItem> {
         builder: (context, state) {
           return Padding(
             padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom,
-                left: 24,
-                right: 24,
-                top: 24,
-                ),
-
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+              left: 24,
+              right: 24,
+              top: 24,
+            ),
             child: SingleChildScrollView(
               child: Form(
                 autovalidateMode: mode,
@@ -72,7 +82,7 @@ class _ShowModalBottomSheetItemState extends State<ShowModalBottomSheetItem> {
                       },
                       hintText: 'Title',
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     CustomTextFormField(
@@ -81,14 +91,12 @@ class _ShowModalBottomSheetItemState extends State<ShowModalBottomSheetItem> {
                       },
                       hintText: 'Content',
                     ),
-                    SizedBox(
-                      height: 50,
-                    ),
+                    ListViewColor(colorsList: colors,currentIndex: 100,),
                     Container(
                       width: double.infinity,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            fixedSize: Size(double.infinity, 50),
+                            fixedSize: const Size(double.infinity, 50),
                             backgroundColor: kPrimaryColor,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
@@ -97,29 +105,33 @@ class _ShowModalBottomSheetItemState extends State<ShowModalBottomSheetItem> {
                             if (formKey.currentState!.validate()) {
                               formKey.currentState!.save();
 
-                              final String formatCurrentDate = DateFormat('dd/mm/yyyy').format(DateTime.now());
-                              
+                              final String formatCurrentDate =
+                                  DateFormat('dd/mm/yyyy')
+                                      .format(DateTime.now());
+
                               // * sixth Stage trigger cubit (logic)
-                              //data بنضيف 
+                              //data بنضيف
                               await BlocProvider.of<AddNoteCubit>(context)
                                   .addNote(NoteModel(
                                       title: title!,
                                       subTitle: subTitle!,
-                                      date:formatCurrentDate,
-                                      color: Colors.blue.value));
-                              
+                                      date: formatCurrentDate,
+                                      color:
+                                          BlocProvider.of<AddNoteCubit>(context)
+                                              .color
+                                              .value));
                             } else {
                               mode = AutovalidateMode.always;
                             }
                           },
                           child: isLoading
-                              ? Center(
+                              ? const Center(
                                   child: CircularProgressIndicator(
                                     strokeWidth: 3,
                                     color: Colors.deepPurple,
                                   ),
                                 )
-                              : Text(
+                              : const Text(
                                   'Add',
                                   style: TextStyle(
                                     color: Colors.black,
